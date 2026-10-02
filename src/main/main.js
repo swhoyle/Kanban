@@ -22,20 +22,19 @@ const createWindow = () => {
     }),
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
+      devTools: Boolean(MAIN_WINDOW_VITE_DEV_SERVER_URL),
     },
   });
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+    mainWindow.webContents.openDevTools();
   } else {
     mainWindow.loadFile(
       path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
     );
   }
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
